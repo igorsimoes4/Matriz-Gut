@@ -1,6 +1,5 @@
 package com.gutmatriz.model;
 
-/** Implementação padrão de {@link ClassificadorPrioridade}, com faixas fixas. */
 public class ClassificadorPadrao implements ClassificadorPrioridade {
 
     @Override

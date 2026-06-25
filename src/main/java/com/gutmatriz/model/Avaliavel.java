@@ -1,13 +1,6 @@
 package com.gutmatriz.model;
 
-/**
- * Contrato para qualquer item que possa ser avaliado pela Matriz GUT
- * (Gravidade x Urgência x Tendência).
- *
- * Qualquer classe que implemente esta interface ganha automaticamente
- * o cálculo de prioridade através do método default abaixo — não precisa
- * reescrever a fórmula em cada classe que quiser ser "avaliável".
- */
+
 public interface Avaliavel {
 
     int getGravidade();

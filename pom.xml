@@ -57,6 +57,7 @@
                     <mainClass>com.gutmatriz.MainApp</mainClass>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 </project>
