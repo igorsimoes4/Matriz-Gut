@@ -3,6 +3,7 @@ package com.gutmatriz;
 import com.gutmatriz.dao.ProblemaRepository;
 import com.gutmatriz.dao.ProblemaRepositorySQLite;
 import com.gutmatriz.db.DatabaseManager;
+import com.gutmatriz.db.InicializadorBanco;
 import com.gutmatriz.model.ClassificadorPadrao;
 import com.gutmatriz.model.ClassificadorPrioridade;
 import com.gutmatriz.model.Problema;
@@ -43,7 +44,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage stage) {
 
-        DatabaseManager.inicializarBanco();
+        InicializadorBanco.inicializar();
         carregarDados();
 
         BorderPane root = new BorderPane();

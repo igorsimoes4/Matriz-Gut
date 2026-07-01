@@ -7,37 +7,26 @@ import java.sql.Statement;
 
 public class DatabaseManager {
 
-    private static final String DB_URL = "jdbc:sqlite:gut_matrix.db";
-    private static Connection connection;
+    private static DatabaseManager instance;
+    private Connection con;
 
     private DatabaseManager() {
-    }
-
-    public static Connection getConnection() {
         try {
-            if (connection == null || connection.isClosed()) {
-                connection = DriverManager.getConnection(DB_URL);
-            }
+            this.con = DriverManager.getConnection("jdbc:sqlite:gut_matrix.db");
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao conectar ao banco de dados: " + e.getMessage(), e);
+            throw new RuntimeException("Erro na conexão do banco!", e);
         }
-        return connection;
     }
 
-    /** Cria a tabela "problemas" caso ainda nao exista. */
-    public static void inicializarBanco() {
-        String sql = "CREATE TABLE IF NOT EXISTS problemas (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "descricao TEXT NOT NULL," +
-                "gravidade INTEGER NOT NULL," +
-                "urgencia INTEGER NOT NULL," +
-                "tendencia INTEGER NOT NULL," +
-                "data_criacao TEXT NOT NULL" +
-                ")";
-        try (Statement stmt = getConnection().createStatement()) {
-            stmt.execute(sql);
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao criar tabela 'problemas': " + e.getMessage(), e);
+    public static synchronized DatabaseManager getInstance() {
+        if (instance == null) {
+            instance = new DatabaseManager();
         }
+        return instance;
+    }
+
+    public Connection getConnection() {
+        return con;
     }
 }
+

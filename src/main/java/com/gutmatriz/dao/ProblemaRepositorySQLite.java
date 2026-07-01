@@ -20,7 +20,7 @@ public class ProblemaRepositorySQLite implements ProblemaRepository {
     public void inserir(Problema p) {
         String sql = "INSERT INTO problemas (descricao, gravidade, urgencia, tendencia, data_criacao) " +
                 "VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = DatabaseManager.getConnection()
+        try (PreparedStatement stmt = DatabaseManager.getInstance().getConnection()
                 .prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, p.getDescricao());
             stmt.setInt(2, p.getGravidade());
@@ -45,7 +45,7 @@ public class ProblemaRepositorySQLite implements ProblemaRepository {
     public List<Problema> listarTodos() {
         List<Problema> lista = new ArrayList<>();
         String sql = "SELECT * FROM problemas";
-        try (Statement stmt = DatabaseManager.getConnection().createStatement();
+        try (Statement stmt = DatabaseManager.getInstance().getConnection().createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 lista.add(new Problema(
@@ -60,7 +60,7 @@ public class ProblemaRepositorySQLite implements ProblemaRepository {
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao listar problemas: " + e.getMessage(), e);
         }
-        // Ordena pela prioridade GUT, da mais critica para a menos critica
+
         lista.sort((a, b) -> Integer.compare(b.calcularPrioridade(), a.calcularPrioridade()));
         return lista;
     }
@@ -68,7 +68,7 @@ public class ProblemaRepositorySQLite implements ProblemaRepository {
     @Override
     public void atualizar(Problema p) {
         String sql = "UPDATE problemas SET descricao = ?, gravidade = ?, urgencia = ?, tendencia = ? WHERE id = ?";
-        try (PreparedStatement stmt = DatabaseManager.getConnection().prepareStatement(sql)) {
+        try (PreparedStatement stmt = DatabaseManager.getInstance().getConnection().prepareStatement(sql)) {
             stmt.setString(1, p.getDescricao());
             stmt.setInt(2, p.getGravidade());
             stmt.setInt(3, p.getUrgencia());
@@ -83,7 +83,7 @@ public class ProblemaRepositorySQLite implements ProblemaRepository {
     @Override
     public void excluir(int id) {
         String sql = "DELETE FROM problemas WHERE id = ?";
-        try (PreparedStatement stmt = DatabaseManager.getConnection().prepareStatement(sql)) {
+        try (PreparedStatement stmt = DatabaseManager.getInstance().getConnection().prepareStatement(sql)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();
         } catch (SQLException e) {
