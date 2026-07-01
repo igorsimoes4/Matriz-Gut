@@ -2,7 +2,6 @@ package com.gutmatriz;
 
 import com.gutmatriz.dao.ProblemaRepository;
 import com.gutmatriz.dao.ProblemaRepositorySQLite;
-import com.gutmatriz.db.DatabaseManager;
 import com.gutmatriz.db.InicializadorBanco;
 import com.gutmatriz.model.ClassificadorPadrao;
 import com.gutmatriz.model.ClassificadorPrioridade;
